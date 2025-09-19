@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 // create post
 const createPost = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, imageUrl } = req.body;
 
     if (!title || !content)
       return res
@@ -16,6 +16,7 @@ const createPost = async (req, res) => {
     const newPost = new Post({
       title,
       content,
+      imageUrl,
       author: userId,
     });
 
@@ -72,7 +73,7 @@ const getSinglePost = async (req, res) => {
 
 const updatePost = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, imageUrl } = req.body;
     const postId = req.params.id;
     const userId = req.user.id; // from auth middleware
 
@@ -90,6 +91,7 @@ const updatePost = async (req, res) => {
     // Update fields
     if (title) post.title = title;
     if (content) post.content = content;
+    if (imageUrl) post.image = imageUrl;
     post.updatedAt = Date.now();
 
     const updatedPost = await post.save();
